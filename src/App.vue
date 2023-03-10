@@ -5,7 +5,7 @@
     <form @submit.prevent="searchDoctors">
       <input type="number" v-model="resultsPerPage" min="1" />
       <!-- <button @click="updatePagination">Update Pagination</button> -->
-      <br>
+      <br />
       <label>
         Name:
         <input v-model="searchName" />
@@ -96,36 +96,40 @@ const filteredDoctors = computed(() => {
       // doctor.name.toLowerCase().includes(searchName.value.toLowerCase())
       doctor.name.toLowerCase().startsWith(searchName.value.toLowerCase())
     );
+    currentPage.value = 1;
   }
   if (searchDivision.value) {
     filteredDoctors = filteredDoctors.filter(
       (doctor) => doctor.division === searchDivision.value
     );
+    resultsPerPage.value = filteredDoctors.length;
+    currentPage.value = 1;
+    console.dir(filteredDoctors)
+    console.dir(totalPages)
   }
   if (searchSubdivision.value) {
     filteredDoctors = filteredDoctors.filter(
       (doctor) => doctor.subdivision === searchSubdivision.value
     );
+    currentPage.value = 1;
+    console.dir(filteredDoctors)
   }
   if (selectedAlphabet.value) {
     filteredDoctors = filteredDoctors.filter((doctor) =>
       doctor.name.toLowerCase().startsWith(selectedAlphabet.value.toLowerCase())
-      
     );
+    
     currentPage.value = 1;
   }
-
-  // const startIndex = (currentPage.value - 1) * RESULTS_PER_PAGE;
-  // const endIndex = startIndex + RESULTS_PER_PAGE;
-  // return filteredDoctors.slice(startIndex, endIndex);
 
   return filteredDoctors;
 });
 
-const totalPages = computed(() =>
-  Math.ceil(doctors[0].data.length / resultsPerPage.value)
-);
 
+
+const totalPages = computed(() =>
+  Math.ceil(filteredDoctors.value.length / resultsPerPage.value)
+);
 
 const paginatedDoctors = computed(() => {
   const startIndex = (currentPage.value - 1) * resultsPerPage.value;
