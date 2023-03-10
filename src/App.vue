@@ -61,6 +61,7 @@
 </template>
 
 <script setup>
+
 import { ref, computed } from "vue";
 import data from "./assets/data.json";
 const doctors = data;
@@ -104,15 +105,12 @@ const filteredDoctors = computed(() => {
     );
     resultsPerPage.value = filteredDoctors.length;
     currentPage.value = 1;
-    console.dir(filteredDoctors)
-    console.dir(totalPages)
   }
   if (searchSubdivision.value) {
     filteredDoctors = filteredDoctors.filter(
       (doctor) => doctor.subdivision === searchSubdivision.value
     );
     currentPage.value = 1;
-    console.dir(filteredDoctors)
   }
   if (selectedAlphabet.value) {
     filteredDoctors = filteredDoctors.filter((doctor) =>
@@ -125,8 +123,17 @@ const filteredDoctors = computed(() => {
   return filteredDoctors;
 });
 
+var a = 1;
 
+function getFunc() {
+  var a = 2;
 
+  var func = function() { alert(a); };
+
+  return func;
+}
+
+getFunc()(); 
 const totalPages = computed(() =>
   Math.ceil(filteredDoctors.value.length / resultsPerPage.value)
 );
